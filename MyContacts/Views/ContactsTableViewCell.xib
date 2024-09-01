@@ -18,7 +18,7 @@
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="mww-Hi-4cv">
                         <rect key="frame" x="8" y="8" width="377" height="60"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="contact-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="NLP-Vr-byq">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="contacticon" translatesAutoresizingMaskIntoConstraints="NO" id="NLP-Vr-byq">
                                 <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="7ph-xW-czY"/>
@@ -64,7 +64,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="contact-placeholder" width="250" height="250"/>
+        <image name="contacticon" width="480" height="480"/>
         <image name="info.circle" catalog="system" width="128" height="123"/>
     </resources>
 </document>

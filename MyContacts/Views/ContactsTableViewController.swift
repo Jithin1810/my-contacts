@@ -37,7 +37,13 @@ class ContactsTableViewController: UITableViewController {
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let contact = viewModel.contact(at: indexPath.row)
+        let contact = viewModel.contact(at: indexPath.row)
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        guard let detailsVc = storyBoard.instantiateViewController(withIdentifier: "contactDetails") as? ContactDetailsViewController else {
+            return
+        }
+        detailsVc.contact = contact
+        self.navigationController?.pushViewController(detailsVc, animated: true)
         
     }
 
