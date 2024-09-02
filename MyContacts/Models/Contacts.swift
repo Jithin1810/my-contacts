@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 struct Contacts : Codable{
+    var id : UUID
     var name : String
     var phoneNumber : String
     var emailId :  String?

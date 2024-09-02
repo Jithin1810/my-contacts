@@ -9,7 +9,7 @@ import UIKit
 
 struct ContactHeaderCellModel {
     let name: String
-    let image: Data?
+    let image: UIImage?
 }
 
 struct ContactDetailCellModel {
@@ -24,8 +24,9 @@ struct ContactActionCellModel {
 
 enum ActionType {
     case addToFavourites
-//    case call
-//    case message
+    case removeFromFavourites
+    //    case call
+    //    case message
 }
 
 class ContactDetailsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
@@ -33,6 +34,13 @@ class ContactDetailsViewController: UIViewController,UITableViewDelegate,UITable
     
     var dataSource = [Any]()
     var contact: Contacts!
+    var contactManager = ContactsManager()
+//    var onUpdateContact: ((Contacts) -> Void)?
+    var uiimage : UIImage?
+    func updateUI(with contact: Contacts) {
+        self.contact = contact
+        displayContact()
+    }
     
     override func viewDidLoad() {
         tableView.dataSource = self
@@ -44,7 +52,17 @@ class ContactDetailsViewController: UIViewController,UITableViewDelegate,UITable
         tableView.register(UINib(nibName: "ContactMobileTableViewCell", bundle: .main), forCellReuseIdentifier: "mobileCell")
         tableView.register(ContactFavouriteTableViewCell.self, forCellReuseIdentifier: "favCell")
         tableView.register(UINib(nibName: "ContactFavouriteTableViewCell", bundle: .main), forCellReuseIdentifier: "favCell")
-        let contactheader = ContactHeaderCellModel(name: contact.name, image: contact.image)
+        displayContact()
+        let rightButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
+        self.navigationItem.rightBarButtonItem = rightButton
+        navigationItem.largeTitleDisplayMode = .never
+    }
+    func displayContact(){
+        dataSource.removeAll()
+        if contact.image != nil{
+            uiimage = contactManager.convertDataToImage(data: contact.image!)
+        }
+        let contactheader = ContactHeaderCellModel(name: contact.name, image: uiimage)
         dataSource.append(contactheader)
         let contactmobile = ContactDetailCellModel(header: "Mobile", text: contact.phoneNumber)
         dataSource.append(contactmobile)
@@ -52,13 +70,29 @@ class ContactDetailsViewController: UIViewController,UITableViewDelegate,UITable
             let contactEmail = ContactDetailCellModel(header: "Email", text: mail)
             dataSource.append(contactEmail)
         }
-        let contactfav = ContactActionCellModel(cta: "Add to Favourite", type: .addToFavourites)
-        dataSource.append(contactfav)
+        var contactFav : ContactActionCellModel
+        if contact.fav {
+            contactFav = ContactActionCellModel(cta: "Remove from Favourite", type: .removeFromFavourites)
+        }else{
+            contactFav = ContactActionCellModel(cta: "Add to Favourite", type: .addToFavourites)
+        }
+        
+        dataSource.append(contactFav)
         tableView.reloadData()
+    }
+    @objc func editButtonTapped(){
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        guard let createContactDetailVC = storyBoard.instantiateViewController(identifier: "createVc") as? CreateContactViewController else{
+            return
+        }
+        createContactDetailVC.contact = contact
+        createContactDetailVC.onUpdateContact = {[weak self] updatedContact in
+            self?.updateUI(with: updatedContact)}
+        let navigationController = UINavigationController(rootViewController: createContactDetailVC)
+        present(navigationController, animated: true)
     }
     
     
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.count
     }
@@ -87,17 +121,24 @@ class ContactDetailsViewController: UIViewController,UITableViewDelegate,UITable
         }
         
     }
-     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = dataSource[indexPath.row]
         
         if let model = model as? ContactActionCellModel {
-//            switch model.type {
-//            case .addToFavourites:
-//                //
-//                
-//            }
+            switch model.type {
+            case .addToFavourites:
+                contact.fav = true
+                contactManager.updateContact(contact)
+                navigationController?.popViewController(animated: true)
+                
+                
+            case .removeFromFavourites:
+                contact.fav = false
+                contactManager.updateContact(contact)
+                navigationController?.popViewController(animated: true)
+            }
         }
     }
-
+    
 }

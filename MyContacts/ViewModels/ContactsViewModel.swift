@@ -16,6 +16,8 @@ class ContactsViewModel{
     private var allContacts: [Contacts] = []
     
     private var favouriteContacts: [Contacts] = []
+    
+    var  contactManager = ContactsManager()
 
     var viewMode: ViewMode = .contacts
 
@@ -27,19 +29,14 @@ class ContactsViewModel{
             return allContacts.count
         }
     }
-    func populateDefaultsifrequired(){
-        //check user defaults if user entered contacts exists and if not populate default contacts
-        
-        //populateDefaults()
-    }
     private func populateDefaults()-> [Contacts]{
         //guard viewMode == .favourites else { return []}
-        let defaultContacts = [Contacts(name: "favourite1", phoneNumber: "1111111111", emailId: "favourite1@gmail.com", fav: true),
-        Contacts(name: "favourite2", phoneNumber: "2222222222", emailId: "favourite2@gmail.com", fav: false),
-        Contacts(name: "favourite3", phoneNumber: "1111111333", emailId: "favourite3@gmail.com", fav: true),
-        Contacts(name: "favourite4", phoneNumber: "2222222333", emailId: "favourite4@gmail.com", fav: false),
-        Contacts(name: "favourite5", phoneNumber: "1111111444", emailId: "favourite5@gmail.com", fav: true),
-        Contacts(name: "favourite6", phoneNumber: "2222222444", emailId: "favourite6@gmail.com", fav: true)]
+        let defaultContacts = [Contacts(id: UUID(), name: "favourite1", phoneNumber: "1111111111", emailId: "favourite1@gmail.com", fav: true),
+                               Contacts(id: UUID(), name: "favourite2", phoneNumber: "2222222222", emailId: "favourite2@gmail.com", fav: false),
+                               Contacts(id: UUID(), name: "favourite3", phoneNumber: "1111111333", emailId: "favourite3@gmail.com", fav: true),
+                               Contacts(id: UUID(), name: "favourite4", phoneNumber: "2222222333", emailId: "favourite4@gmail.com", fav: false),
+                               Contacts(id: UUID(), name: "favourite5", phoneNumber: "1111111444", emailId: "favourite5@gmail.com", fav: true),
+                               Contacts(id: UUID(), name: "favourite6", phoneNumber: "2222222444", emailId: "favourite6@gmail.com", fav: true)]
          return defaultContacts
     }
 
@@ -61,14 +58,7 @@ class ContactsViewModel{
     }
 
     private func fetchContacts() -> [Contacts] {
-        // Fetch and return all contacts
-        
-        return populateDefaults()
+        var fetchedContacts = contactManager.loadContacts()
+        return fetchedContacts
     }
-
-    private func fetchFavourites() -> [Contacts] {
-        // Fetch and return favourite contacts
-        return []
-    }
-    
 }

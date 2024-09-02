@@ -10,10 +10,13 @@ import UIKit
 class ContactsTableViewCell: UITableViewCell {
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var nextButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        nextButton.isUserInteractionEnabled = false
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -26,6 +29,9 @@ class ContactsTableViewCell: UITableViewCell {
     
     func configure(with contact : Contacts){
         nameLabel.text = contact.name
+        if let image = contact.image{
+            posterImageView.image = UIImage(data: image)
+        }
     }
     
 }

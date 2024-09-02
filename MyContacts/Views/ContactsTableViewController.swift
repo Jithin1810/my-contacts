@@ -13,11 +13,28 @@ class ContactsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.fetchData()
         tableView.register(ContactsTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.register(UINib(nibName: "ContactsTableViewCell", bundle: .main), forCellReuseIdentifier: "cell")
+        setupNavigationBarButtons()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.fetchData()
         tableView.reloadData()
-        
+    }
+    private func setupNavigationBarButtons() {
+        // Right bar button for creating a new contact
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        self.navigationItem.rightBarButtonItem = addButton
+    }
+
+    @objc private func addButtonTapped() {
+        // Handle the action for the + button
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        guard let createContactDetailVC = storyBoard.instantiateViewController(identifier: "createVc") as? CreateContactViewController else{
+            return
+        }
+        let navigationController = UINavigationController(rootViewController: createContactDetailVC)
+        present(navigationController, animated: true)
     }
 
     // MARK: - Table view data source
@@ -44,7 +61,20 @@ class ContactsTableViewController: UITableViewController {
         }
         detailsVc.contact = contact
         self.navigationController?.pushViewController(detailsVc, animated: true)
-        
+    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the item from the data source
+            let contact = viewModel.contact(at: indexPath.row)
+            viewModel.contactManager.deleteContact(contact)
+            viewModel.fetchData()
+            
+            // Update the table view
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
     }
 
 

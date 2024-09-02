@@ -14,6 +14,7 @@ class ContactDetailsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        selectionStyle = .none
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -25,6 +26,7 @@ class ContactDetailsTableViewCell: UITableViewCell {
         
         //contactPosterView.image = model.image ?? UIImage(named: "contacticon")
         nameLabel.text = model.name
+        contactPosterView.image = model.image
     }
     
 }

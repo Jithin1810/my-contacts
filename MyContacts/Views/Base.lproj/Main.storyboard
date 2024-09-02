@@ -61,12 +61,12 @@
         <!--Create Contact View Controller-->
         <scene sceneID="j5e-Pm-JIL">
             <objects>
-                <viewController id="SOq-x9-7Wc" customClass="CreateContactViewController" customModule="MyContacts" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="createVc" id="SOq-x9-7Wc" customClass="CreateContactViewController" customModule="MyContacts" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="shA-Iv-zrK">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SjH-vm-0pI">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="contact-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="SjH-vm-0pI">
                                 <rect key="frame" x="10" y="69" width="373" height="373"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="373" id="EOP-vB-vdW"/>
@@ -128,6 +128,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="contact-placeholder" width="250" height="250"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -12,7 +12,9 @@ class ContactFavouriteTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        favButton.isUserInteractionEnabled = false
         // Initialization code
+        selectionStyle = .none
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -20,9 +22,7 @@ class ContactFavouriteTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    @IBAction func addToFavPressed(_ sender: Any) {
-    }
-    
+
     func configure(_ model : ContactActionCellModel){
         favButton.setTitle(model.cta, for: .normal)
     
